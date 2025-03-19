@@ -1,0 +1,271 @@
+﻿@page "/register"
+@using System.ComponentModel.DataAnnotations
+@using BakingSisters.Web.Models
+@using BakingSisters.Web.Models.Enums
+@using BakingSisters.Web.Services
+@inject NavigationManager NavigationManager
+@inject ILogger<Register> Logger
+@inject ILoginService LoginService
+@rendermode InteractiveServer
+
+<div class="register-container">
+    <div class="register-box">
+        <h2 class="register-title">Create Your Sweet Account</h2>
+        <EditForm Model="@registerModel" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+
+            <div class="form-group">
+                <label for="firstName">First Name*</label>
+                <InputText id="firstName" class="form-control" @bind-Value="registerModel.FirstName" />
+                <ValidationMessage For="@(() => registerModel.FirstName)" />
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Last Name*</label>
+                <InputText id="lastName" class="form-control" @bind-Value="registerModel.LastName" />
+                <ValidationMessage For="@(() => registerModel.LastName)" />
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address*</label>
+                <InputText id="email" class="form-control" @bind-Value="registerModel.Email" />
+                <ValidationMessage For="@(() => registerModel.Email)" />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password*</label>
+                <InputText type="password" id="password" class="form-control" @bind-Value="registerModel.Password" />
+                <ValidationMessage For="@(() => registerModel.Password)" />
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number*</label>
+                <InputText id="phone" class="form-control" @bind-Value="registerModel.PhoneNumber" />
+                <ValidationMessage For="@(() => registerModel.PhoneNumber)" />
+            </div>
+
+            <div class="form-group">
+                <label for="whatsapp">WhatsApp Number</label>
+                <InputText id="whatsapp" class="form-control" @bind-Value="registerModel.WhatsAppNumber" />
+                <ValidationMessage For="@(() => registerModel.WhatsAppNumber)" />
+            </div>
+
+            <div class="form-group">
+                <label for="address">Street Address*</label>
+                <InputText id="address" class="form-control" @bind-Value="registerModel.StreetAddress" />
+                <ValidationMessage For="@(() => registerModel.StreetAddress)" />
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="city">City*</label>
+                    <InputText id="city" class="form-control" @bind-Value="registerModel.City" />
+                    <ValidationMessage For="@(() => registerModel.City)" />
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="zipCode">ZIP Code*</label>
+                    <InputText id="zipCode" class="form-control" @bind-Value="registerModel.ZipCode" />
+                    <ValidationMessage For="@(() => registerModel.ZipCode)" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <InputCheckbox @bind-Value="registerModel.AcceptTerms" />
+                    I accept the terms and conditions
+                </label>
+                <ValidationMessage For="@(() => registerModel.AcceptTerms)" />
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">Register</button>
+                <button type="button" class="btn btn-secondary" @onclick="NavigateToLogin">Back to Login</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+<style>
+    .register-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('images/bakery-background.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    }
+
+    .register-box {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 600px;
+    }
+
+    .register-title {
+    color: #d4546a;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-family: 'Pacifico', cursive;
+    }
+
+    .form-group {
+    margin-bottom: 1.5rem;
+    }
+
+    .form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #555;
+    font-weight: 500;
+    }
+
+    .form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+    outline: none;
+    border-color: #d4546a;
+    }
+
+    .button-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    }
+
+    .btn {
+    flex: 1;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+    background-color: #d4546a;
+    color: white;
+    }
+
+    .btn-primary:hover {
+    background-color: #c4445a;
+    }
+
+    .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    }
+
+    .btn-secondary:hover {
+    background-color: #5a6268;
+    }
+
+    ::deep .validation-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    }
+</style>
+
+@code {
+    private RegisterModel registerModel = new();
+
+    private class RegisterModel
+    {
+        [Required(ErrorMessage = "First name is required")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "First name must be between 2 and 50 characters")]
+        public string FirstName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Last name is required")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "Last name must be between 2 and 50 characters")]
+        public string LastName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Password is required")]
+        [MinLength(8, ErrorMessage = "Password must be at least 8 characters")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$",
+            ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, and one number")]
+        public string Password { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Phone number is required")]
+        [Phone(ErrorMessage = "Invalid phone number format")]
+        public string PhoneNumber { get; set; } = string.Empty;
+
+        [Phone(ErrorMessage = "Invalid WhatsApp number format")]
+        public string WhatsAppNumber { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Street address is required")]
+        public string StreetAddress { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "City is required")]
+        public string City { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "ZIP code is required")]
+        [RegularExpression(@"^\d{5}(-\d{4})?$", ErrorMessage = "Invalid ZIP code format")]
+        public string ZipCode { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "You must accept the terms and conditions")]
+        public bool AcceptTerms { get; set; }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+
+            Logger.LogInformation("Registration attempt for user: {Email}", registerModel.Email);
+            await LoginService.RegisterUserAsync(await FromRegisterToUser(registerModel));
+            // Navigate to login page upon successful registration
+            NavigationManager.NavigateTo("/login");
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Registration failed for user: {Email}", registerModel.Email);
+            // Handle registration failure
+        }
+    }
+
+    private void NavigateToLogin()
+    {
+        NavigationManager.NavigateTo("/login");
+    }
+
+    private Task<User> FromRegisterToUser(RegisterModel register)
+    {
+        var user = new User
+        {
+            FirstName = register.FirstName,
+            LastName = register.LastName,
+            Email = register.Email,
+            PhoneNumber = register.PhoneNumber,
+            WhatsAppNumber = register.WhatsAppNumber,
+            StreetAddress = register.StreetAddress,
+            City = register.City,
+            ZipCode = register.ZipCode,
+            UserType = UserType.Customer
+        };
+        return Task.FromResult(user);
+    }
+}

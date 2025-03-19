@@ -1,0 +1,223 @@
+﻿@page "/login"
+@layout EmptyLayout
+@using System.ComponentModel.DataAnnotations
+@using BakingSisters.Web.Components.Layout
+@using BakingSisters.Web.Models
+@using BakingSisters.Web.Services
+@using Microsoft.AspNetCore.Mvc.Diagnostics
+@inject NavigationManager NavigationManager
+@inject ILogger<Login> Logger
+@inject ILoginService LoginService
+@rendermode InteractiveServer
+
+<div class="login-container">
+    <div class="login-box">
+        <h2 class="login-title">Welcome to Baking Sister`s</h2>
+        <EditForm Model="@loginModel" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <InputText id="email" class="form-control" @bind-Value="loginModel.Email" />
+                <ValidationMessage For="@(() => loginModel.Email)" />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <InputText type="password" id="password" class="form-control" @bind-Value="loginModel.Password" />
+                <ValidationMessage For="@(() => loginModel.Password)" />
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="button" class="btn btn-secondary" @onclick="HandleRegister">Register</button>
+            </div>
+            <div>
+                <button type="button" class="btn btn-secondary-guest" @onclick="LoginAsGuest">Login As Guest</button>
+            </div>
+            <div class="forgot-password">
+                <a href="/forgot-password">Forgot Password?</a>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+<style>
+    .login-container {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url('images/cake-background.jpeg');
+        background-size: cover;
+        background-position: center;
+        padding: 20px;
+    }
+
+    .login-box {
+        background-image: url('images/birthday-cake.jpg');
+        background-size: cover;
+        background-position: center;
+        /* background-color: rgba(255, 255, 255, 0.95); */
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .login-title {
+        /* color: #ff69b4; */
+        color: rgba(255, 255, 255, 0.95);
+        text-align: center;
+        margin-bottom: 2rem;
+        font-family: 'Pacifico', cursive;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            /* color: #666; */
+           color: rgba(255, 255, 255, 0.95);
+            font-weight: 500;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .btn {
+        flex: 1;
+        padding: 0.75rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #ff69b4;
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background-color: #ff4da6;
+            transform: scale(1.1);
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: scale(1.1);
+        }
+
+    .btn-secondary-guest {
+        width: 340px;
+        margin-top: 10px;
+        background-color: yellowgreen;
+        color: white;
+    }
+
+        .btn-secondary-guest:hover {
+            background-color: yellowgreen;
+            color: white;
+            transform: scale(1.1);
+        }
+
+    .forgot-password {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+
+        .forgot-password a {
+            color: #ff69b4;
+            text-decoration: none;
+        }
+
+            .forgot-password a:hover {
+                text-decoration: underline;
+            }
+
+    ::deep .validation-message {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+</style>
+
+@code {
+    private LoginModel loginModel = new();
+    private string? errorMessage;
+
+    private class LoginModel
+    {
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Password is required")]
+        [MinLength(5, ErrorMessage = "Password must be at least 5 characters")]
+        public string Password { get; set; } = string.Empty;
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            errorMessage = null;
+            Logger.LogInformation("Login attempt for user: {Email}", loginModel.Email);
+            var user = await LoginService.LoginUserAsync(loginModel.Email, loginModel.Password);
+            
+            // Store the user information in AppState
+            AppState.LoggedInUser = user;
+            
+            // Navigate to dashboard upon successful login
+            NavigationManager.NavigateTo("/dashboard");
+        }
+        catch (HttpRequestException ex)
+        {
+            Logger.LogError(ex, "Login failed for user: {Email}", loginModel.Email);
+            errorMessage = "Login failed. Please check your credentials and try again.";
+        }
+    }
+
+    private void HandleRegister()
+    {
+        NavigationManager.NavigateTo("/register");
+    }
+
+    private async Task LoginAsGuest()
+    {
+        try
+        {
+            errorMessage = null;
+            var user = await LoginService.LoginAsGuestAsync();
+            AppState.LoggedInUser.Email = user.Email;
+            NavigationManager.NavigateTo("/dashboard");
+        }
+        catch (HttpRequestException ex)
+        {
+            Logger.LogError(ex, "Guest login failed");
+            errorMessage = "Guest login failed. Please try again later.";
+        }
+    }
+}

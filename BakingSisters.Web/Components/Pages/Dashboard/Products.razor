@@ -1,0 +1,97 @@
+﻿@page "/products"
+<style>
+    .under-construction-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 800px;
+        background-color: #f4f4f4;
+        border: 2px dashed #f0ad4e;
+        border-radius: 16px;
+        padding: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-right: 20px;
+        margin-left: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .typing-text {
+        font-family: "Courier New", Courier, monospace;
+        font-size: 2rem;
+        font-weight: bold;
+        white-space: pre-wrap;
+        overflow: hidden;
+        border-right: 0.15em solid orange;
+        animation: blink-caret 0.75s step-end infinite;
+        color: #333;
+        text-align: center;
+    }
+
+    .construction-icon {
+        font-size: 4rem;
+        color: #f0ad4e;
+        margin-bottom: 20px;
+        animation: bounce 1.5s infinite;
+    }
+
+    @@keyframes blink-caret {
+        from, to {
+            border-color: transparent;
+        }
+        50% {
+            border-color: orange;
+        }
+    }
+
+    @@keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-10px);
+        }
+        60% {
+            transform: translateY(-5px);
+        }
+    }
+
+    .construction-image {
+        width: 1000px;
+        height: 400px;
+        margin-bottom: 20px;
+        animation: fadeIn 2s ease-in-out;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+</style>
+
+
+<div class="under-construction-container">
+    <img src="images/BakingSistersUnderConstruction.webp" alt="Under Construction Animation" class="construction-image" />
+    @* <TelerikFontIcon Icon="@FontIcon.Code" class="construction-icon" /> *@
+    <pre class="typing-text">@displayedText</pre>
+</div>
+@code {
+    private string displayedText = "";
+    private string fullText = "🚧 This component is under construction... 🛠️\nCoding in progress...";
+    private int typingSpeed = 100;
+
+    protected override async Task OnInitializedAsync()
+    {
+        for (var i = 0; i < fullText.Length; i++)
+        {
+            displayedText += fullText[i];
+            StateHasChanged();
+            await Task.Delay(typingSpeed);
+        }
+    }
+}

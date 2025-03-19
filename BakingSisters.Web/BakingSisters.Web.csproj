@@ -7,8 +7,28 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BakingSisters.Web.Client\BakingSisters.Web.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="MudBlazor" Version="7.15.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\Features\Categories\" />
+    <Folder Include="Components\Features\Users\" />
+    <Folder Include="Components\Features\ShoppingCarts\" />
+    <Folder Include="Components\Features\Products\" />
+    <Folder Include="Components\Features\Orders\" />
+    <Folder Include="Data\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>
