@@ -37,7 +37,16 @@ public class LoginService(IApiService apiService, ILogger<LoginService> logger, 
         catch (HttpRequestException ex)
         {
             logger.LogError(ex, "Failed to login as guest");
-            throw;
+            
+            // If API call fails, create a local guest user
+            return new User
+            {
+                Email = "guest@bakingsisters.com",
+                FirstName = "Guest",
+                LastName = "User",
+                UserType = UserType.Guest,
+                Token = ""
+            };
         }
     }
 

@@ -43,6 +43,5 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode();
-   /* .AddAdditionalAssemblies(typeof(BakingSisters.Web.Client._Imports).Assembly)*/;
 
-app.Run();
+await app.RunAsync();

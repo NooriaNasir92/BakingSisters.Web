@@ -1,4 +1,3 @@
-using BakingSisters.Api.Models.Enum;
 using System.Text.Json.Serialization;
 
 namespace BakingSisters.Api.Models.Auth;

@@ -1,4 +1,5 @@
 using BakingSisters.Api.Models.Auth;
+using BakingSisters.Api.Models.Enum;
 using BakingSisters.Api.Services.Auth;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,44 @@ public class AuthController(IAuthService authService) : ControllerBase
         catch (UnauthorizedAccessException)
         {
             return Unauthorized("Invalid email or password");
+        }
+    }
+
+    [HttpPost("guest")]
+    public async Task<ActionResult<LoginResponse>> GuestLogin()
+    {
+        try
+        {
+            // Create guest user details
+            var guestUser = new User
+            {
+                Email = "guest@bakingsisters.com",
+                FirstName = "Guest",
+                LastName = "User",
+                UserType = UserType.Guest,
+                IsActive = true,
+                LastLoginDate = DateTime.UtcNow
+            };
+
+            // Generate token for guest user
+            var token = await authService.GenerateJwtTokenAsync(guestUser);
+
+            // Create response
+            var response = new LoginResponse
+            {
+                UserId = 0, // Guest users don't have permanent IDs
+                Email = guestUser.Email,
+                FirstName = guestUser.FirstName,
+                LastName = guestUser.LastName,
+                UserType = Convert.ToInt32(guestUser.UserType),
+                Token = token
+            };
+
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Failed to create guest session: {ex.Message}");
         }
     }
 

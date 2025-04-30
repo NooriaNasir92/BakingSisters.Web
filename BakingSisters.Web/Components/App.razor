@@ -5,10 +5,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
-    <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
     <link rel="stylesheet" href="@Assets["app.css"]" />
     <link rel="stylesheet" href="@Assets["BakingSisters.Web.styles.css"]" />
-    <link rel="stylesheet" href="css/navmenu.css" />
+    <link rel="stylesheet" href="@Assets["assets/css/font-awesome.min.css"]">
+    <link rel="stylesheet" href="@Assets["assets/vendors/linearicons/style.css"]">
+    <link rel="stylesheet" href="@Assets["assets/vendors/flat-icon/flaticon.css"]">
+   @*  <link rel="stylesheet" href="@Assets["assets/css/navmenu.css"]" /> *@
+
+
+    <link href="@Assets["assets/css/bootstrap.min.css"]" rel="stylesheet">
+    <link href="@Assets["assets/vendors/revolution/css/settings.css"]" rel="stylesheet">
+    <link href="@Assets["assets/vendors/revolution/css/layers.css"]" rel="stylesheet">
+    <link href="@Assets["assets/vendors/revolution/css/navigation.css"]" rel="stylesheet">
+    <link href="@Assets["assets/vendors/animate-css/animate.css"]" rel="stylesheet">
+    <link href="@Assets["assets/vendors/owl-carousel/owl.carousel.min.css"]" rel="stylesheet">
+    <link href="@Assets["assets/vendors/magnifc-popup/magnific-popup.css"]" rel="stylesheet">
+    <link href="@Assets["assets/css/style.css"]" rel="stylesheet">
+    <link href="@Assets["assets/css/responsive.css"]" rel="stylesheet">
+
+
     <ImportMap />
     <link rel="icon" type="image/png" href="favicon.png" />
     <HeadOutlet />
@@ -16,6 +31,25 @@
 
 <body>
     <Routes @rendermode="InteractiveServer" />
+
+    <script src="@Assets["assets/js/jquery-3.2.1.min.js"]"></script>
+    <script src="@Assets["assets/js/popper.min.js"]"></script>
+    <script src="@Assets["assets/js/bootstrap.min.js"]"></script>
+    <script src="@Assets["assets/vendors/revolution/js/jquery.themepunch.tools.min.js"]"></script> 
+    <script src="@Assets["assets/vendors/revolution/js/jquery.themepunch.revolution.min.js"]"></script>
+    <script src="@Assets["assets/vendors/revolution/js/extensions/revolution.extension.video.min.js"]"></script>
+    <script src="@Assets["assets/vendors/revolution/js/extensions/revolution.extension.slideanims.min.js"]"></script>
+    <script src="@Assets["assets/vendors/revolution/js/extensions/revolution.extension.layeranimation.min.js"]"></script>
+    <script src="@Assets["assets/vendors/revolution/js/extensions/revolution.extension.navigation.min.js"]"></script>
+    <script src="@Assets["assets/vendors/owl-carousel/owl.carousel.min.js"]"></script>
+    <script src="@Assets["assets/vendors/magnifc-popup/jquery.magnific-popup.min.js"]"></script>
+    <script src="@Assets["assets/vendors/datetime-picker/js/moment.min.js"]"></script>
+    <script src="@Assets["assets/vendors/datetime-picker/js/bootstrap-datetimepicker.min.js"]"></script>
+    <script src="@Assets["assets/vendors/nice-select/js/jquery.nice-select.min.js"]"></script>
+    <script src="@Assets["assets/vendors/jquery-ui/jquery-ui.min.js"]"></script>
+    <script src="@Assets["assets/vendors/lightbox/simpleLightbox.min.js"]"></script>
+    <script src="@Assets["assets/js/theme.js"]"></script>
+
     <script src="_framework/blazor.web.js"></script>
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
 

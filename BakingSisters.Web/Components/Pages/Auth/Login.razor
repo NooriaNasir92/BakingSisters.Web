@@ -55,10 +55,10 @@
     }
 
     .login-box {
-        background-image: url('images/birthday-cake.jpg');
+        background-image: url('images/overloaded-cake.jpg');
         background-size: cover;
         background-position: center;
-        /* background-color: rgba(255, 255, 255, 0.95); */
+       /*  background-color: #E78143; */
         padding: 2rem;
         border-radius: 15px;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
@@ -121,12 +121,13 @@
         }
 
     .btn-secondary {
-        background-color: #6c757d;
-        color: white;
+        background-color: white;
+        color: #ff69b4;
+        border-color: #ff69b4;
     }
 
         .btn-secondary:hover {
-            background-color: #5a6268;
+            background-color: #ff69b4;
             transform: scale(1.1);
         }
 
@@ -211,10 +212,10 @@
         {
             errorMessage = null;
             var user = await LoginService.LoginAsGuestAsync();
-            AppState.LoggedInUser.Email = user.Email;
+            AppState.LoggedInUser = user;
             NavigationManager.NavigateTo("/dashboard");
         }
-        catch (HttpRequestException ex)
+        catch (Exception ex)
         {
             Logger.LogError(ex, "Guest login failed");
             errorMessage = "Guest login failed. Please try again later.";

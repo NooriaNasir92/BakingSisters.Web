@@ -1,10 +1,15 @@
 @page "/"
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@inject NavigationManager Navigation
+
 <style>
 	.body{
 		/* background-image: url('images/backgroundCake.jpg');
 		background-repeat: no-repeat;
 		background-size: cover;*/
-		background-color: red;
+		/* background-color: red; */
 		
 	}
 	
@@ -18,3 +23,21 @@
 
 
 </body>
+
+@code {
+
+    private bool _hasNavigated = false;
+	// protected override void OnInitialized()
+	// {
+	// 	Navigation.NavigateTo("login", true);
+	// }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !_hasNavigated)
+        {
+            _hasNavigated = true;
+            Navigation.NavigateTo("login", true);
+        }
+    }
+}

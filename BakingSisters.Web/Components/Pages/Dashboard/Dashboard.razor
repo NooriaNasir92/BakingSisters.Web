@@ -1,11 +1,15 @@
+@inject IJSRuntime JsRuntime
 @page "/dashboard"
-@layout MainLayout
 @using BakingSisters.Web.Components.Layout
+@layout MainLayout
 @using BakingSisters.Web.Models
 @using BakingSisters.Web.Models.Enums
 @using BakingSisters.Web.Services
 @inject NavigationManager NavigationManager
 @inject ILogger<Dashboard> Logger
+@rendermode InteractiveServer
+@* 
+
 @rendermode InteractiveServer
 
 <div class="dashboard-container">
@@ -163,6 +167,7 @@
 @code {
     protected override void OnInitialized()
     {
+        // Check if user is logged in
         if (AppState.LoggedInUser == null)
         {
             NavigationManager.NavigateTo("/login");
@@ -182,7 +187,7 @@
 
     private void NavigateToProducts()
     {
-        NavigationManager.NavigateTo("/products");
+        NavigationManager.NavigateTo("/cake");
     }
 
     private void NavigateToOrders()
@@ -199,4 +204,988 @@
     {
         NavigationManager.NavigateTo("/register");
     }
-} 
+}  *@
+
+<!--================Slider Area =================-->
+<section class="main_slider_area">
+    <div id="main_slider" class="rev_slider" data-version="5.3.1.6">
+        <ul>
+            <li data-index="rs-1587" data-transition="fade" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off" data-easein="default" data-easeout="default" data-masterspeed="300" data-thumb="img/home-slider/slider-1.jpg" data-rotate="0" data-saveperformance="off" data-title="Creative" data-param1="01" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+                <!-- MAIN IMAGE -->
+                <img src="assets/img/home-slider/slider-1.jpg" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="5" class="rev-slidebg" data-no-retina>
+
+                <!-- LAYER NR. 1 -->
+                <div class="slider_text_box">
+                    <div class="tp-caption tp-resizeme first_text"
+                         data-x="['left','left','left','15','15']" data-hoffset="['0','0','0','0']"
+                         data-y="['top','top','top','top']" data-voffset="['175','175','125','165','160']"
+                         data-fontsize="['65','65','65','40','30']"
+                         data-lineheight="['80','80','80','50','40']"
+                         data-width="['800','800','800','500']"
+                         data-height="none"
+                         data-whitespace="normal"
+                         data-type="text"
+                         data-responsive_offset="on"
+                         data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:0px;s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]"
+                         data-textAlign="['left','left','left','left']">
+                        Quality Cake ... <br /> with sweet, eggs & breads
+                    </div>
+
+                    <div class="tp-caption tp-resizeme secand_text"
+                         data-x="['left','left','left','15','15']" data-hoffset="['0','0','0','0']"
+                         data-y="['top','top','top','top']" data-voffset="['345','345','300','300','250']"
+                         data-fontsize="['20','20','20','20','16']"
+                         data-lineheight="['28','28','28','28']"
+                         data-width="['640','640','640','640','350']"
+                         data-height="none"
+                         data-whitespace="normal"
+                         data-type="text"
+                         data-responsive_offset="on"
+                         data-transform_idle="o:1;"
+                         data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:[100%];s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]">
+                        From a shared dream to a table full of love—every bake tells our story.
+                        At Baking Sisters, we pour heart, heritage, and happiness into every sweet creation.
+                    </div>
+
+                    <div class="tp-caption tp-resizeme slider_button"
+                         data-x="['left','left','left','15','15']" data-hoffset="['0','0','0','0']"
+                         data-y="['top','top','top','top']" data-voffset="['435','435','390','390','360']"
+                         data-fontsize="['14','14','14','14']"
+                         data-lineheight="['46','46','46','46']"
+                         data-width="none"
+                         data-height="none"
+                         data-whitespace="nowrap"
+                         data-type="text"
+                         data-responsive_offset="on"
+                         data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:[100%];s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]">
+                        <a class="main_btn" href="#">See the recipe</a>
+                    </div>
+                </div>
+            </li>
+            <li data-index="rs-1588" data-transition="fade" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off" data-easein="default" data-easeout="default" data-masterspeed="300" data-thumb="img/home-slider/slider-2.jpg" data-rotate="0" data-saveperformance="off" data-title="Creative" data-param1="01" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+                <!-- MAIN IMAGE -->
+                <img src="assets/img/home-slider/slider-2.jpg" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="5" class="rev-slidebg" data-no-retina>
+                <!-- LAYERS -->
+                <!-- LAYERS -->
+                <!-- LAYER NR. 1 -->
+                <div class="slider_text_box">
+                    <div class="tp-caption tp-resizeme first_text"
+                         data-x="['left','left','left','15','15']" data-hoffset="['0','0','0','0']"
+                         data-y="['top','top','top','top']" data-voffset="['175','175','125','165','160']"
+                         data-fontsize="['65','65','65','40','30']"
+                         data-lineheight="['80','80','80','50','40']"
+                         data-width="['800','800','800','500']"
+                         data-height="none"
+                         data-whitespace="normal"
+                         data-type="text"
+                         data-responsive_offset="on"
+                         data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:0px;s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]"
+                         data-textAlign="['left','left','left','left']">
+                        Cake Bakery ... <br /> make delicious products
+                    </div>
+
+                    <div class="tp-caption tp-resizeme secand_text"
+                         data-x="['left','left','left','15','15']" data-hoffset="['0','0','0','0']"
+                         data-y="['top','top','top','top']" data-voffset="['345','345','300','300','250']"
+                         data-fontsize="['20','20','20','20','16']"
+                         data-lineheight="['28','28','28','28']"
+                         data-width="['640','640','640','640','350']"
+                         data-height="none"
+                         data-whitespace="normal"
+                         data-type="text"
+                         data-responsive_offset="on"
+                         data-transform_idle="o:1;"
+                         data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:[100%];s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]">
+                        It started with flour-dusted hands and a shared love for baking.
+                        At Baking Sisters, each creation is a celebration of comfort, care, and creativity.
+                    </div>
+
+                    <div class="tp-caption tp-resizeme slider_button"
+                         data-x="['left','left','left','15','15']" data-hoffset="['0','0','0','0']"
+                         data-y="['top','top','top','top']" data-voffset="['435','435','390','390','360']"
+                         data-fontsize="['14','14','14','14']"
+                         data-lineheight="['46','46','46','46']"
+                         data-width="none"
+                         data-height="none"
+                         data-whitespace="nowrap"
+                         data-type="text"
+                         data-responsive_offset="on"
+                         data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:[100%];s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]">
+                        <a class="main_btn" href="#">See the recipe</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+<!--================End Slider Area =================-->
+    
+<!--================Welcome Area =================-->
+<section class="welcome_bakery_area">
+    <div class="container">
+        <div class="welcome_bakery_inner p_100">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="main_title">
+                        <h2>Welcome to Baking sister`s Bakery</h2>
+                        <p>"Each cake is a canvas of edible art decorated with precision, passion, and a flair for elegance that tastes as divine as it looks.</p>
+                    </div>
+                    <div class="welcome_left_text">
+                        <p>Where beauty meets flavor our cakes do not just look stunning, they tell a story with every delicious slice From the delicate swirls of frosting to the rich, melt-in-your-mouth flavor, every muffin is a bite-sized masterpiece. These treats are crafted with love, adorned like jewels, and baked to perfection proofs that taste and talent go hand in hand.</p>
+                        <a class="pink_btn" href="/about-us">Know more about us</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="welcome_img">
+                        <img class="img-fluid" src="assets/img/cake-feature/welcome-right.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cake_feature_inner">
+            <div class="main_title">
+                <h2>Our Featured Cakes</h2>
+                <h5>Handpicked Creations Loved by Our Customers</h5>
+            </div>
+            <div class="cake_feature_slider owl-carousel">
+                <div class="item">
+                    <div class="cake_feature_item">
+                        <div class="cake_img">
+                            <img src="assets/img/cake-feature/c-feature-1.jpg" alt="">
+                        </div>
+                        <div class="cake_text">
+                            <h4>Rs200</h4>
+                            <h3>Strawberry Cupcakes</h3>
+                            <a class="pest_btn" href="#">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="cake_feature_item">
+                        <div class="cake_img">
+                            <img src="assets/img/cake-feature/c-feature-2.jpg" alt="">
+                        </div>
+                        <div class="cake_text">
+                            <h4>Rs250</h4>
+                            <h3>Strawberry Cupcakes</h3>
+                            <a class="pest_btn" href="#">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="cake_feature_item">
+                        <div class="cake_img">
+                            <img src="assets/img/cake-feature/c-feature-3.jpg" alt="">
+                        </div>
+                        <div class="cake_text">
+                            <h4>Rs300</h4>
+                            <h3>Strawberry Cupcakes</h3>
+                            <a class="pest_btn" href="#">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="cake_feature_item">
+                        <div class="cake_img">
+                            <img src="assets/img/cake-feature/c-feature-4.jpg" alt="">
+                        </div>
+                        <div class="cake_text">
+                            <h4>Rs270</h4>
+                            <h3>Strawberry Cupcakes</h3>
+                            <a class="pest_btn" href="#">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Welcome Area =================-->
+<!--================Special Recipe Area =================-->
+<section class="special_recipe_area">
+    <div class="container">
+        <div class="special_recipe_slider owl-carousel">
+            <div class="item">
+                <div class="media">
+                    <div class="d-flex">
+                        <img src="assets/img/recipe/recipe-1.png" alt="">
+                    </div>
+                    <div class="media-body">
+                        <h4>Wedding Cakes</h4>
+                        <p>A symbol of love, unity, and sweet beginnings—our wedding cakes are crafted to reflect your forever. Each layer is filled with affection, every detail designed to celebrate your beautiful journey together.</p>
+                        <a class="w_view_btn" href="#">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="media">
+                    <div class="d-flex">
+                        <img src="assets/img/recipe/recipe-1.png" alt="">
+                    </div>
+                    <div class="media-body">
+                        <h4>Birthday Cake</h4>
+                        <p>Celebrate your special day with a cake that’s as unique as you are—custom-made with love, color, and creativity. From playful kids’ themes to elegant designs and hidden surprises, we make every birthday unforgettable.</p>
+                        <a class="w_view_btn" href="#">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="media">
+                    <div class="d-flex">
+                        <img src="assets/img/recipe/recipe-1.png" alt="">
+                    </div>
+                    <div class="media-body">
+                        <h4>Anniversary Cake</h4>
+                        <p>Got a secret recipe up your sleeve? We’re all ears—and ovens! Whether it’s Nana’s nutty delight or your midnight cake experiment, we’ll whip it into something sweet, fun, and totally unforgettable.</p>
+                        <a class="w_view_btn" href="#">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="media">
+                    <div class="d-flex">
+                        <img src="assets/img/recipe/recipe-1.png" alt="">
+                    </div>
+                    <div class="media-body">
+                        <h4>Special Recipe</h4>
+                        <p>Every family has a cherished recipe that holds memories, love, and tradition. At Baking Sisters, we honor those stories by transforming your special recipes into beautifully crafted cakes—made with heart, just like home.</p>
+                        <a class="w_view_btn" href="#">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Special Recipe Area =================-->
+<!--================Service Area =================-->
+<section class="service_area">
+    <div class="container">
+        <div class="single_w_title">
+            <h2>Main Services We Provide</h2>
+        </div>
+        <div class="row service_inner">
+            <div class="col-lg-4 col-6">
+                <div class="service_item">
+                    <i class="flaticon-food-2"></i>
+                    <h4>Birthday Cakes</h4>
+                    <p>Celebrate every sweet moment with a customized birthday cake as unique and special as your loved one.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-6">
+                <div class="service_item">
+                    <i class="flaticon-food-1"></i>
+                    <h4>Anniversary Cakes</h4>
+                    <p>Love like yours deserves more than ordinary�design an anniversary cake that�s bold, beautiful, and uniquely you.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-6">
+                <div class="service_item">
+                    <i class="flaticon-food"></i>
+                    <h4>Wedding Cakes</h4>
+                    <p>Layers of love, dreams, and forever�elevate your �I do� with a wedding cake that�s a masterpiece of romance.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Service Area =================-->
+<!--================Discover Menu Area =================-->
+<section class="discover_menu_area">
+    <div class="discover_menu_inner">
+        <div class="container">
+            <div class="main_title">
+                <h2>Discover Menu</h2>
+                <h5>Duis aute irure dolor in reprehenderit voluptate</h5>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="discover_item_inner">
+                        <div class="discover_item">
+                            <h4>Double Chocolate Pie</h4>
+                            <p>Chocolate puding, vanilla, fruite rasberry jam milk <span>Rs 450</span></p>
+                        </div>
+                        <div class="discover_item">
+                            <h4>Chocolate Pudding Cake</h4>
+                            <p>Rich and moist chocolate layered cake.<span>Rs 1600</span></p>
+                        </div>
+                        <div class="discover_item">
+                            <h4>Milk Chocolate Mousse Cake</h4>
+                            <p>Layers of soft cake and airy milk chocolate mousse.<span>Rs 1600</span></p>
+                        </div>
+                        <div class="discover_item">
+                            <h4>Red Velvet Layer Cake</h4>
+                            <p>Deep red, cocoa-flavored cake with silky cream cheese. <span>Rs 1500</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="discover_item_inner">
+                        <div class="discover_item">
+                            <h4>Vanilla Custard Center Muffin</h4>
+                            <p>Light muffin with a creamy vanilla custard filling.<span>Rs 1500</span></p>
+                        </div>
+                        <div class="discover_item">
+                            <h4>Apple Cinnamon Muffin</h4>
+                            <p>Warm apple chunks and cinnamon spice in a soft, fluffy base. <span>Rs 1600</span></p>
+                        </div>
+                        <div class="discover_item">
+                            <h4>Coffee Crumble Muffin</h4>
+                            <p>Coffee-flavored muffin topped with a buttery crumble. <span>Rs 1800</span></p>
+                        </div>
+                        <div class="discover_item">
+                            <h4>Lemon Poppy Seed Muffin</h4>
+                            <p>ight, zesty lemon muffin with poppy seeds for texture.<span>Rs 1400</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Discover Menu Area =================-->
+<!--================Client Says Area =================-->
+<section class="client_says_area p_100">
+    <div class="container">
+        <div class="client_says_inner">
+            <div class="c_says_title">
+                <h2>What Our Client Says</h2>
+            </div>
+            <div class="client_says_slider owl-carousel">
+                <div class="item">
+                    <div class="media">
+                        <div class="d-flex">
+                            <img src="assets/img/client/client1.webp" alt="client1">
+                            <h3>�</h3>
+                        </div>
+                        <div class="media-body">
+                            <p>Baking Sisters turned my dream cake into a reality�so beautifully decorated, it felt almost too perfect to eat� until the first bite melted in my mouth!.</p>
+                            <h5>- Mrs Khawaja</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="media">
+                        <div class="d-flex">
+                            <img src="assets/img/client/client2.jpeg" alt="">
+                        </div>
+                        <div class="media-body">
+                            <p>The muffins were little works of art! Each one looked stunning and tasted even better�Baking Sisters truly knows how to bake with both skill and soul.</p>
+                            <h5>- Mrs Ashraf</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="media">
+                        <div class="d-flex">
+                            <img src="assets/img/client/client3.jpeg" alt="">
+                        </div>
+                        <div class="media-body">
+                            <p>Baking Sisters never disappoints�flawless decoration, heavenly flavors, and so much love packed into every single treat. Pure magic!</p>
+                            <h5>- Amena Sarwar</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Client Says Area =================-->
+<!--================End Client Says Area =================-->
+<section class="our_chef_area p_100">
+    <div class="container">
+        <div class="row our_chef_inner">
+            <div class="col-lg-3 col-6">
+                <div class="chef_text_item">
+                    <div class="main_title">
+                        <h2>Our Chefs</h2>
+                        <p>With a passion for perfection, Chef crafts custom cakes that are as beautiful as they are delicious. From layered masterpieces to themed birthday creations, her designs turn celebrations into lasting memories.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="chef_item">
+                    <div class="chef_img">
+                        <img class="img-fluid" src="assets/img/chef/chef-1.jpg" alt="">
+                        <ul class="list_style">
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin-square"></i></a></li>
+                            <li><a href="#"><i class="fa fa-facebook-square"></i></a></li>
+                            <li><a href="#"><i class="fa fa-skype"></i></a></li>
+                        </ul>
+                    </div>
+                    <a href="#"><h4>Chef Nooria</h4></a>
+                    <h5>Expert in Cake Making</h5>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="chef_item">
+                    <div class="chef_img">
+                        <img class="img-fluid" src="assets/img/chef/chef-2.jpg" alt="">
+                        <ul class="list_style">
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin-square"></i></a></li>
+                            <li><a href="#"><i class="fa fa-facebook-square"></i></a></li>
+                            <li><a href="#"><i class="fa fa-skype"></i></a></li>
+                        </ul>
+                    </div>
+                    <a href="#"><h4>Chef Shanzy</h4></a>
+                    <h5>Expert in Cake Making</h5>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="chef_item">
+                    <div class="chef_img">
+                        <img class="img-fluid" src="assets/img/chef/chef-3.jpg" alt="">
+                        <ul class="list_style">
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin-square"></i></a></li>
+                            <li><a href="#"><i class="fa fa-facebook-square"></i></a></li>
+                            <li><a href="#"><i class="fa fa-skype"></i></a></li>
+                        </ul>
+                    </div>
+                    <a href="#"><h4>Cehf Hira</h4></a>
+                    <h5>Expert in Cake Making</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Client Says Area =================-->
+<!--================Latest News Area =================-->
+<section class="latest_news_area p_100">
+    <div class="container">
+        <div class="main_title">
+            <h2>Latest Blog</h2>
+            <h5>an turn into your instructor your helper, your </h5>
+        </div>
+        <div class="row latest_news_inner">
+            <div class="col-lg-4 col-md-6">
+                <div class="l_news_image">
+                    <div class="l_news_img">
+                        <img class="img-fluid" src="assets/img/blog/latest-news/l-news-1.jpg" alt="">
+                    </div>
+                    <div class="l_news_hover">
+                        <a href="#"><h5>Oct 15, 2016</h5></a>
+                        <a href="#"><h4>Nanotechnology immersion along the information</h4></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="l_news_item">
+                    <div class="l_news_img">
+                        <img class="img-fluid" src="assets/img/blog/latest-news/l-news-2.jpg" alt="">
+                    </div>
+                    <div class="l_news_text">
+                        <a href="#"><h5>Oct 15, 2016</h5></a>
+                        <a href="#"><h4>Nanotechnology immersion along the information</h4></a>
+                        <p>Lorem ipsum dolor sit amet, cons ectetur elit. Vestibulum nec odios Suspe ndisse cursus mal suada faci lisis. Lorem ipsum dolor sit ametion ....</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="l_news_item">
+                    <div class="l_news_img">
+                        <img class="img-fluid" src="assets/img/blog/latest-news/l-news-3.jpg" alt="">
+                    </div>
+                    <div class="l_news_text">
+                        <a href="#"><h5>Oct 15, 2016</h5></a>
+                        <a href="#"><h4>Nanotechnology immersion along the information</h4></a>
+                        <p>Lorem ipsum dolor sit amet, cons ectetur elit. Vestibulum nec odios Suspe ndisse cursus mal suada faci lisis. Lorem ipsum dolor sit ametion ....</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Latest News Area =================-->
+<!--================Newsletter Area =================-->
+<section class="newsletter_area">
+    <div class="container">
+        <div class="row newsletter_inner">
+            <div class="col-lg-6">
+                <div class="news_left_text">
+                    <h4>Join our Newsletter list to get all the latest offers, discounts and other benefits.</h4>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="newsletter_form">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Enter your email address">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button">Subscribe Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Newsletter Area =================-->
+
+                    
+<script>
+        ;(function($) {
+        "use strict";
+
+        var nav_offset_top = $('header').height();
+        /*-------------------------------------------------------------------------------
+          Navbar
+        -------------------------------------------------------------------------------*/
+
+        //* Navbar Fixed
+        function navbarFixed(){
+            if ( $('.main_header_area, .main_header_three, .box_header_four').length ){
+                $(window).scroll(function() {
+                    var scroll = $(window).scrollTop();
+                    if (scroll >= nav_offset_top ) {
+                        $(".main_header_area, .main_header_three, .box_header_four").addClass("navbar_fixed");
+                    } else {
+                        $(".main_header_area, .main_header_three, .box_header_four").removeClass("navbar_fixed");
+                    }
+                });
+            };
+        };
+        navbarFixed();
+
+
+        /*----------------------------------------------------*/
+        /*  Main Slider js
+        /*----------------------------------------------------*/
+        function main_slider(){
+            if ( $('#main_slider').length ){
+                $("#main_slider").revolution({
+                    sliderType:"standard",
+                    sliderLayout:"auto",
+                    delay:4000000,
+                    disableProgressBar:"on",
+                    navigation: {
+                        onHoverStop: 'off',
+                        touch:{
+                            touchenabled:"on"
+                        },
+                        arrows: {
+                            style:"zeus",
+                            enable:true,
+                            hide_onmobile:true,
+                            hide_under:992,
+                            hide_onleave:true,
+                            hide_delay:200,
+                            hide_delay_mobile:1200,
+                            tmp:'<div class="tp-title-wrap">  	<div class="tp-arr-imgholder"></div> </div>',
+                            left: {
+                                h_align: "left",
+                                v_align: "center",
+                                h_offset: 50,
+                                v_offset: 0
+                            },
+                            right: {
+                                h_align: "right",
+                                v_align: "center",
+                                h_offset: 50,
+                                v_offset: 0
+                            }
+                        },
+                    },
+                    responsiveLevels:[4096,1199,992,767,480],
+                    gridwidth:[1170,970,750,700,400],
+                    gridheight:[625,625,550,550,500],
+                    lazyType:"smart",
+                    fallbacks: {
+                        simplifyAll:"off",
+                        nextSlideOnWindowFocus:"off",
+                        disableFocusListener:false,
+                    }
+                })
+            }
+        }
+        main_slider();
+        /*----------------------------------------------------*/
+        /*  Main Slider js
+        /*----------------------------------------------------*/
+        function main_slider3(){
+            if ( $('#main_slider3').length ){
+                $("#main_slider3").revolution({
+                    sliderType:"standard",
+                    sliderLayout:"auto",
+                    delay:4000000,
+                    disableProgressBar:"on",
+                    navigation: {
+                        onHoverStop: 'off',
+                        touch:{
+                            touchenabled:"on"
+                        },
+                        arrows: {
+                            style:"zeus",
+                            enable:true,
+                            hide_onmobile:true,
+                            hide_under:992,
+                            hide_onleave:true,
+                            hide_delay:200,
+                            hide_delay_mobile:1200,
+                            tmp:'<div class="tp-title-wrap">  	<div class="tp-arr-imgholder"></div> </div>',
+                            left: {
+                                h_align: "left",
+                                v_align: "center",
+                                h_offset: 50,
+                                v_offset: 0
+                            },
+                            right: {
+                                h_align: "right",
+                                v_align: "center",
+                                h_offset: 50,
+                                v_offset: 0
+                            }
+                        },
+                    },
+                    responsiveLevels:[4096,1199,992,767,480],
+                    gridwidth:[1170,970,750,700,400],
+                    gridheight:[798,798,600,600,500],
+                    lazyType:"smart",
+                    fallbacks: {
+                        simplifyAll:"off",
+                        nextSlideOnWindowFocus:"off",
+                        disableFocusListener:false,
+                    }
+                })
+            }
+        }
+        main_slider3();
+        /*----------------------------------------------------*/
+        /*  Main Slider js
+        /*----------------------------------------------------*/
+        function main_slider4(){
+            if ( $('#main_slider4').length ) {
+                $("#main_slider4").revolution({
+                    sliderType: "standard",
+                    sliderLayout: "auto",
+                    delay: 4000000,
+                    disableProgressBar: "on",
+                    navigation: {
+                        onHoverStop: 'off',
+                        touch: {
+                            touchenabled: "on"
+                        },
+                        arrows: {
+                            style: "zeus",
+                            enable: true,
+                            hide_onmobile: true,
+                            hide_under: 767,
+                            hide_onleave: true,
+                            hide_delay: 200,
+                            hide_delay_mobile: 1200,
+                            tmp: '<div class="tp-title-wrap">  	<div class="tp-arr-imgholder"></div> </div>',
+                            left: {
+                                h_align: "left",
+                                v_align: "center",
+                                h_offset: 50,
+                                v_offset: 0
+                            },
+                            right: {
+                                h_align: "right",
+                                v_align: "center",
+                                h_offset: 50,
+                                v_offset: 0
+                            }
+                        },
+                    },
+                    responsiveLevels: [4096, 1370, 1199, 992, 767, 480],
+                    gridwidth: [1170, 1170, 970, 750, 540, 400],
+                    gridheight: [767, 767, 767, 600, 600, 500],
+                    lazyType: "smart",
+                    fallbacks: {
+                        simplifyAll: "off",
+                        nextSlideOnWindowFocus: "off",
+                        disableFocusListener: false
+                    }
+                });
+            }
+        }
+        main_slider4();
+        /*----------------------------------------------------*/
+        /*  Main Slider js
+        /*----------------------------------------------------*/
+        function main_slider5(){
+            if ( $('#main_slider5').length ){
+                $("#main_slider5").revolution({
+                    sliderType:"standard",
+                    sliderLayout:"auto",
+                    delay:4000000,
+                    disableProgressBar:"on",
+                    navigation: {
+                        onHoverStop: 'off',
+                        touch:{
+                            touchenabled:"on"
+                        },
+                        arrows: {
+                            style:"zeus",
+                            enable:true,
+                            hide_onmobile:true,
+                            hide_under:992,
+                            hide_onleave:true,
+                            hide_delay:200,
+                            hide_delay_mobile:1200,
+                            tmp:'<div class="tp-title-wrap">  	<div class="tp-arr-imgholder"></div> </div>',
+                            left: {
+                                h_align: "left",
+                                v_align: "center",
+                                h_offset: 50,
+                                v_offset: 0
+                            },
+                            right: {
+                                h_align: "right",
+                                v_align: "center",
+                                h_offset: 50,
+                                v_offset: 0
+                            }
+                        },
+                    },
+                    responsiveLevels:[4096,1370,1199,992,767,480],
+                    gridwidth:[1170,1170,970,750,700,400],
+                    gridheight:[620,620,620,550,550,500],
+                    lazyType:"smart",
+                    fallbacks: {
+                        simplifyAll:"off",
+                        nextSlideOnWindowFocus:"off",
+                        disableFocusListener:false,
+                    }
+                })
+            }
+        }
+        main_slider5();
+
+        /*----------------------------------------------------*/
+        /*  Cake Feature Slider
+        /*----------------------------------------------------*/
+        function cake_carousel(){
+            if ( $('.cake_feature_slider').length ){
+                $('.cake_feature_slider').owlCarousel({
+                    loop:true,
+                    margin: 30,
+                    items: 4,
+                    nav:true,
+                    autoplay: true,
+                    smartSpeed: 1500,
+                    dots:true,
+                    navContainerClass: 'cake_feature_slider',
+                    navText: ['<i class="fa fa-angle-left" aria-hidden="true"></i>','<i class="fa fa-angle-right" aria-hidden="true"></i>'],
+                    responsiveClass: true,
+                    responsive: {
+                        0: {
+                            items: 1,
+                        },
+                        430: {
+                            items: 2,
+                        },
+                        768: {
+                            items: 3,
+                        },
+                        992: {
+                            items: 4,
+                        }
+                    }
+                })
+            }
+        }
+        cake_carousel();
+
+        /*----------------------------------------------------*/
+        /*  Cake Feature Slider
+        /*----------------------------------------------------*/
+        function client_say_slider(){
+           if ( $('.client_says_slider').length ){
+               $('.client_says_slider').owlCarousel({
+                   loop:true,
+                   margin: 30,
+                   items: 1,
+                   nav:true,
+                   autoplay: true,
+                   smartSpeed: 1500,
+                   dots:false,
+                   navContainerClass: 'client_says_slider',
+                   navText: ['<i class="fa fa-angle-left" aria-hidden="true"></i>','<i class="fa fa-angle-right" aria-hidden="true"></i>'],
+                   responsiveClass: true,
+               })
+           }
+        }
+        client_say_slider();
+
+        /*----------------------------------------------------*/
+        /*  Cake Feature Slider
+        /*----------------------------------------------------*/
+        function arivals_slider(){
+            if ( $('.arivals_slider').length ){
+                $('.arivals_slider').owlCarousel({
+                    loop:true,
+                    margin: 30,
+                    items: 2,
+                    nav:false,
+                    autoplay: true,
+                    smartSpeed: 1500,
+                    dots:true,
+                    responsiveClass: true,
+                    responsive: {
+                        0: {
+                            items: 1,
+                        },
+                        420: {
+                            items: 2,
+                        },
+                    }
+                })
+            }
+        }
+        arivals_slider();
+
+        /*----------------------------------------------------*/
+        /*  Special Recipe Slider
+        /*----------------------------------------------------*/
+        function recipe_slider(){
+            if ( $('.special_recipe_slider').length ){
+                $('.special_recipe_slider').owlCarousel({
+                    loop:true,
+                    margin: 0,
+                    items: 1,
+                    nav:false,
+                    autoplay: true,
+                    smartSpeed: 1500,
+                    dots:true,
+                    responsiveClass: true,
+                })
+            }
+        }
+        recipe_slider();
+
+        $(document).ready(function() {
+            $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
+                disableOn: 700,
+                type: 'iframe',
+                mainClass: 'mfp-fade',
+                removalDelay: 160,
+                preloader: false,
+
+                fixedContentPos: false
+            });
+        });
+
+        $('#datetimepicker3').datetimepicker({
+
+        });
+        $('#datetimepicker4').datetimepicker({
+            format: 'LT'
+        });
+
+        $(document).ready(function() {
+          $('.product_select, .short').niceSelect();
+        });
+
+
+
+        /*----------------------------------------------------*/
+        /*  portfolio_isotope
+        /*----------------------------------------------------*/
+        function grid_gallery(){
+            if ( $('.grid_portfolio_area').length ){
+                // Activate isotope in container
+                $(".grid_portfolio_area").imagesLoaded( function() {
+                    $(".grid_portfolio_area").isotope({
+                        layoutMode: 'masonry',
+                        percentPosition:true,
+                        columnWidth: 1
+                    });
+                });
+            }
+        }
+        grid_gallery();
+
+        /*----------------------------------------------------*/
+        /*  Portfolio Isotope js
+        /*----------------------------------------------------*/
+        function portfolio_isotope(){
+            if ( $('.portfolio_filter ul li').length ){
+                // Add isotope click function
+                $(".portfolio_filter ul li").on('click',function(){
+                    $(".portfolio_filter ul li").removeClass("active");
+                    $(this).addClass("active");
+
+                    var selector = $(this).attr("data-filter");
+                    $(".grid_portfolio_area").isotope({
+                        filter: selector,
+                        animationOptions: {
+                            duration: 450,
+                            easing: "linear",
+                            queue: false,
+                        }
+                    });
+                    return false;
+                });
+            }
+        }
+
+        portfolio_isotope();
+
+
+        $( function() {
+            $( "#slider-range" ).slider({
+                range: true,
+                min: 0,
+                max: 500,
+                values: [ 10, 250 ],
+                slide: function( event, ui ) {
+                $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+                }
+            });
+            $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+            " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+        });
+
+
+        /*----------------------------------------------------*/
+        /*  Search Popup js
+        /*----------------------------------------------------*/
+        $(document).ready(function() {
+            $('.popup-with-zoom-anim').magnificPopup({
+                type: 'inline',
+
+                fixedContentPos: false,
+                fixedBgPos: true,
+
+                overflowY: 'auto',
+
+                closeBtnInside: true,
+                preloader: false,
+
+                midClick: true,
+                removalDelay: 300,
+                mainClass: 'my-mfp-zoom-in'
+            });
+
+            $('.popup-with-move-anim').magnificPopup({
+                type: 'inline',
+
+                fixedContentPos: false,
+                fixedBgPos: true,
+
+                overflowY: 'auto',
+
+                closeBtnInside: true,
+                preloader: false,
+
+                midClick: true,
+                removalDelay: 300,
+                mainClass: 'my-mfp-slide-bottom'
+            });
+        });
+
+        /*----------------------------------------------------*/
+        /*  Simple LightBox js
+        /*----------------------------------------------------*/
+        $('.imageGallery1 .light').simpleLightbox();
+
+
+    })(jQuery)
+
+   
+</script>
+@code{
+
+}
