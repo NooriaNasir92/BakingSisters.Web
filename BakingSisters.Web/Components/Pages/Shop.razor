@@ -1,0 +1,230 @@
+@page "/shop"
+@using BakingSisters.Api.Models
+@using BakingSisters.Web.Components.Products
+@using BakingSisters.Web.Services
+@inject IApiService ApiService
+@inject IToastService ToastService
+@rendermode InteractiveServer
+
+<div class="shop-container">
+    <div class="shop-header">
+        <h1 class="shop-title">Our Products</h1>
+        <p class="shop-description">Browse our delicious selection of cakes and treats!</p>
+    </div>
+
+    <div class="product-filters">
+        <div class="search-box">
+            <input type="text"
+                   placeholder="Search products..."
+                   @bind-value="SearchTerm"
+                   @bind-value:event="oninput" />
+        </div>
+
+        <div class="category-filters">
+            <button class="category-btn @(SelectedCategory == null ? "active" : "")"
+                    @onclick="() => FilterByCategory(null)">
+                All
+            </button>
+            @foreach (var category in Categories)
+            {
+                <button class="category-btn @(SelectedCategory?.Id == category.Id ? "active" : "")"
+                        @onclick="() => FilterByCategory(category)">
+                    @category.Name
+                </button>
+            }
+        </div>
+    </div>
+
+    @if (IsLoading)
+    {
+        <div class="loading">
+            <p>Loading products...</p>
+        </div>
+    }
+    else if (!FilteredProducts.Any())
+    {
+        <div class="no-products">
+            <p>No products found matching your criteria.</p>
+        </div>
+    }
+    else
+    {
+        <div class="products-grid">
+            @foreach (var product in FilteredProducts)
+            {
+                <div class="product-item">
+                    <ProductCard Product="@product" />
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .shop-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+
+    .shop-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .shop-title {
+        color: #d4546a;
+        margin-bottom: 0.5rem;
+    }
+
+    .shop-description {
+        color: #666;
+    }
+
+    .product-filters {
+        margin-bottom: 2rem;
+    }
+
+    .search-box {
+        margin-bottom: 1rem;
+    }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+    .category-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .category-btn {
+        padding: 0.5rem 1rem;
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .category-btn.active {
+            background-color: #d4546a;
+            color: white;
+            border-color: #d4546a;
+        }
+
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+
+    .loading, .no-products {
+        text-align: center;
+        padding: 3rem;
+        color: #666;
+    }
+
+    @@media (max-width: 768px) {
+        .products-grid {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+    }
+</style>
+
+@code {
+    private List<BakingSisters.Api.Models.Product> Products { get; set; } = [];
+    private List<BakingSisters.Api.Models.Category> Categories { get; set; } = [];
+    private bool IsLoading { get; set; } = true;
+    private string SearchTerm { get; set; } = string.Empty;
+    private BakingSisters.Api.Models.Category? SelectedCategory { get; set; }
+
+    private List<BakingSisters.Api.Models.Product> FilteredProducts => Products
+        .Where(p => string.IsNullOrWhiteSpace(SearchTerm) ||
+                   p.Name.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
+                   (p.Description != null && p.Description.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase)))
+        .Where(p => SelectedCategory == null || p.CategoryId == SelectedCategory.Id)
+        .ToList();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProductsAsync();
+    }
+
+    private async Task LoadProductsAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            // This would normally call your API to get products
+            // For now, we'll create dummy data
+
+            Categories =
+                [
+
+                new Category { Id = 1, Name = "Birthday Cakes" },
+                new Category { Id = 2, Name = "Wedding Cakes" },
+                new Category { Id = 3, Name = "Cupcakes" }
+            ];
+
+            Products =
+                [
+                new BakingSisters.Api.Models.Product
+                {
+                    Id = 1,
+                    Name = "Chocolate Birthday Cake",
+                    Description = "Rich chocolate cake with chocolate frosting",
+                    BasePrice = 39.99m,
+                    ImageUrl = "assets/img/birthday-cakes/birthday-cake-1.jpeg",
+                    CategoryId = 1
+                },
+                new BakingSisters.Api.Models.Product
+                {
+                    Id = 2,
+                    Name = "Vanilla Wedding Cake",
+                    Description = "Elegant three-tier vanilla cake with butter cream frosting",
+                    BasePrice = 199.99m,
+                    ImageUrl = "assets/img/wedding-cakes/wedding-cake-1.jpeg",
+                    CategoryId = 2
+                },
+                new BakingSisters.Api.Models.Product
+                {
+                    Id = 3,
+                    Name = "Strawberry Cupcakes",
+                    Description = "Delicious strawberry cupcakes with pink frosting",
+                    BasePrice = 24.99m,
+                    ImageUrl = "assets/img/wedding-cakes/wedding-cake-6.jpeg",
+                    CategoryId = 3
+                },
+                new BakingSisters.Api.Models.Product
+                {
+                    Id = 4,
+                    Name = "Red Velvet Cake",
+                    Description = "Classic red velvet cake with cream cheese frosting",
+                    BasePrice = 44.99m,
+                    ImageUrl = "assets/img/wedding-cakes/wedding-cake-4.jpeg",
+                    CategoryId = 1
+                }
+            ];
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError("Failed to load products", "Error");
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private void FilterByCategory(BakingSisters.Api.Models.Category? category)
+    {
+        SelectedCategory = category;
+    }
+} 

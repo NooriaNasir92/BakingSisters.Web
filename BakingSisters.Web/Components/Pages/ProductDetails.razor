@@ -1,0 +1,310 @@
+@page "/product/{Id:int}"
+@using BakingSisters.Api.Models
+@using BakingSisters.Web.Components.Common
+@using BakingSisters.Web.Models
+@using BakingSisters.Web.Services
+@inject NavigationManager NavigationManager
+@inject IApiService ApiService
+@inject IToastService ToastService
+@rendermode InteractiveServer
+
+<div class="product-details-container">
+    @if (Product != null)
+    {
+        <div class="product-details">
+            <div class="product-image">
+                <img src="@(Product.ImageUrl ?? "images/cake-placeholder.jpg")" alt="@Product.Name" />
+            </div>
+            <div class="product-info">
+                <h1 class="product-name">@Product.Name</h1>
+                <p class="product-price">$@Product.BasePrice.ToString("0.00")</p>
+                <div class="product-description">@Product.Description</div>
+                
+                @if (Product.AvailableCustomizations?.Any() == true)
+                {
+                    <div class="customizations">
+                        <h3>Customize Your Order</h3>
+                        
+                        @foreach (var group in Product.AvailableCustomizations)
+                        {
+                            <div class="customization-group">
+                                <h4>@group.Name</h4>
+                                <div class="options">
+                                    @foreach (var option in group.Options)
+                                    {
+                                        <div class="option">
+                                            <input type="radio" 
+                                                   name="@($"customization-{group.Id}")" 
+                                                   id="@($"option-{option.Id}")" 
+                                                   checked="@(IsOptionSelected(group.Id, option.Id))"
+                                                   @onchange="() => SelectOption(group.Id, option)" />
+                                            <label for="@($"option-{option.Id}")">
+                                                @option.Name
+                                                @if (option.AdditionalPrice > 0)
+                                                {
+                                                    <span class="additional-price">(+$@option.AdditionalPrice.ToString("0.00"))</span>
+                                                }
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                
+                <div class="add-to-cart-section">
+                    <AddToCartButton Product="@Product" Customizations="SelectedCustomizations" />
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="back-btn" @onclick="NavigateBack">
+                        <i class="fa fa-arrow-left"></i> Back to Products
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+    else if (IsLoading)
+    {
+        <div class="loading">
+            <p>Loading product details...</p>
+        </div>
+    }
+    else
+    {
+        <div class="not-found">
+            <h2>Product Not Found</h2>
+            <p>Sorry, the product you are looking for could not be found.</p>
+            <button class="back-btn" @onclick="NavigateBack">Back to Products</button>
+        </div>
+    }
+</div>
+
+<style>
+    .product-details-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+    
+    .product-details {
+        display: flex;
+        gap: 2rem;
+    }
+    
+    .product-image {
+        flex: 1;
+        max-width: 500px;
+    }
+    
+    .product-image img {
+        width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .product-info {
+        flex: 1;
+    }
+    
+    .product-name {
+        color: #333;
+        margin-top: 0;
+    }
+    
+    .product-price {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #d4546a;
+        margin-bottom: 1rem;
+    }
+    
+    .product-description {
+        color: #666;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+    
+    .customizations {
+        margin-bottom: 2rem;
+    }
+    
+    .customization-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .customization-group h4 {
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+    
+    .options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .option {
+        display: flex;
+        align-items: center;
+    }
+    
+    .option label {
+        margin-left: 0.5rem;
+        cursor: pointer;
+    }
+    
+    .additional-price {
+        color: #d4546a;
+        font-size: 0.9rem;
+    }
+    
+    .add-to-cart-section {
+        margin-bottom: 2rem;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .back-btn {
+        padding: 0.75rem 1.5rem;
+        background-color: #f0f0f0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .back-btn:hover {
+        background-color: #e0e0e0;
+    }
+    
+    .loading, .not-found {
+        text-align: center;
+        padding: 3rem;
+    }
+    
+    @@media (max-width: 768px) {
+        .product-details {
+            flex-direction: column;
+        }
+        
+        .product-image {
+            max-width: 100%;
+        }
+    }
+</style>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    
+    private BakingSisters.Api.Models.Product? Product { get; set; }
+    private bool IsLoading { get; set; } = true;
+    private List<CartItemCustomization> SelectedCustomizations { get; set; } = new();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProductAsync();
+    }
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadProductAsync();
+    }
+    
+    private async Task LoadProductAsync()
+    {
+        IsLoading = true;
+        
+        try
+        {
+            // This would normally call your API to get product details
+            // For now, we'll create a dummy product
+            Product = new BakingSisters.Api.Models.Product
+            {
+                Id = Id,
+                Name = "Birthday Cake",
+                Description = "A delicious birthday cake with cream frosting and sprinkles. Perfect for your special day!",
+                BasePrice = 39.99m,
+                ImageUrl = "images/cake-placeholder.jpg",
+                AvailableCustomizations = new List<BakingSisters.Api.Models.CustomizationGroup>
+                {
+                    new BakingSisters.Api.Models.CustomizationGroup
+                    {
+                        Id = 1,
+                        Name = "Size",
+                        Options = new List<BakingSisters.Api.Models.CustomizationOption>
+                        {
+                            new BakingSisters.Api.Models.CustomizationOption { Id = 1, Name = "Small (6-inch)", AdditionalPrice = 0 },
+                            new BakingSisters.Api.Models.CustomizationOption { Id = 2, Name = "Medium (8-inch)", AdditionalPrice = 10 },
+                            new BakingSisters.Api.Models.CustomizationOption { Id = 3, Name = "Large (10-inch)", AdditionalPrice = 20 }
+                        }
+                    },
+                    new BakingSisters.Api.Models.CustomizationGroup
+                    {
+                        Id = 2,
+                        Name = "Flavor",
+                        Options = new List<BakingSisters.Api.Models.CustomizationOption>
+                        {
+                            new BakingSisters.Api.Models.CustomizationOption { Id = 4, Name = "Vanilla", AdditionalPrice = 0 },
+                            new BakingSisters.Api.Models.CustomizationOption { Id = 5, Name = "Chocolate", AdditionalPrice = 0 },
+                            new BakingSisters.Api.Models.CustomizationOption { Id = 6, Name = "Strawberry", AdditionalPrice = 5 }
+                        }
+                    }
+                }
+            };
+            
+            // Pre-select the first option from each group
+            if (Product.AvailableCustomizations?.Any() == true)
+            {
+                foreach (var group in Product.AvailableCustomizations)
+                {
+                    if (group.Options?.Any() == true)
+                    {
+                        SelectOption(group.Id, group.Options.First());
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError("Failed to load product details", "Error");
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+    
+    private void SelectOption(int groupId, BakingSisters.Api.Models.CustomizationOption option)
+    {
+        // Remove any existing selection for this group
+        SelectedCustomizations.RemoveAll(c => c.CustomizationGroupId == groupId);
+        
+        // Add the new selection
+        if (Product?.AvailableCustomizations != null)
+        {
+            var group = Product.AvailableCustomizations.FirstOrDefault(g => g.Id == groupId);
+            if (group != null)
+            {
+                SelectedCustomizations.Add(CartItemCustomization.FromOption(option, group));
+            }
+        }
+    }
+    
+    private bool IsOptionSelected(int groupId, int optionId)
+    {
+        return SelectedCustomizations.Any(c => c.CustomizationGroupId == groupId && c.CustomizationOptionId == optionId);
+    }
+    
+    private void NavigateBack()
+    {
+        NavigationManager.NavigateTo("/shop");
+    }
+} 

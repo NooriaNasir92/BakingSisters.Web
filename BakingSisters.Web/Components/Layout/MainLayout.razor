@@ -3,6 +3,7 @@
 @using MudBlazor
 @using BakingSisters.Web.Services
 @using BakingSisters.Api.Models.Auth
+@using BakingSisters.Web.Components.Common
 
 <MudThemeProvider/>
 <MudDialogProvider/>
@@ -25,7 +26,7 @@
                     <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
                 </ul>
                 <ul class="h_search list_style">
-                    <li class="shop_cart"><a href="#"><i class="lnr lnr-cart"></i></a></li>
+                    <CartIndicator />
                     <li><a class="popup-with-zoom-anim" href="#test-search"><i class="fa fa-search"></i></a></li>
                     @if (AppState.LoggedInUser != null)
                     {
@@ -67,6 +68,8 @@
                             </ul>
                         </li>
                         <li><a href="/dashboard">Home</a></li>
+                        <li><a href="/shop">Shop</a></li>
+                        <li><a href="/cart">Cart</a></li>
                         <li><a href="menu.html">Menu</a></li>
                         <li class="dropdown submenu">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">About Us</a>

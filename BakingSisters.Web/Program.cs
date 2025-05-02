@@ -8,6 +8,8 @@ using IApiService = BakingSisters.Web.Services.IApiService;
 using ILoginService = BakingSisters.Web.Services.ILoginService;
 using IToastService = BakingSisters.Web.Services.IToastService;
 using ToastService = BakingSisters.Web.Services.ToastService;
+using ICartService = BakingSisters.Web.Services.ICartService;
+using CartService = BakingSisters.Web.Services.CartService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +27,7 @@ builder.Services.AddScoped<IApiService, ApiService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IToastService, ToastService>();
 builder.Services.AddScoped<BakingSisters.Api.Services.Auth.IAuthService, BakingSisters.Api.Services.Auth.AuthService>();
+builder.Services.AddScoped<ICartService, CartService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

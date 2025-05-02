@@ -1,0 +1,101 @@
+@using BakingSisters.Api.Models
+@using BakingSisters.Web.Components.Common
+@inject NavigationManager NavigationManager
+
+<div class="product-card">
+    <div class="product-image" @onclick="NavigateToProduct">
+        <img src="@(Product.ImageUrl ?? "images/cake-placeholder.jpg")" alt="@Product.Name" />
+    </div>
+    <div class="product-details">
+        <h3 class="product-name" @onclick="NavigateToProduct">@Product.Name</h3>
+        <p class="product-description">@(Product.Description?.Length > 80 ? Product.Description[..80] + "..." : Product.Description)</p>
+        <div class="product-price-cart">
+            <span class="product-price">$@Product.BasePrice.ToString("0.00")</span>
+            <AddToCartButton Product="@Product" ButtonText="Add" ShowQuantity="false" />
+        </div>
+    </div>
+</div>
+
+<style>
+    .product-card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    }
+    
+    .product-image {
+        height: 200px;
+        overflow: hidden;
+        cursor: pointer;
+    }
+    
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s;
+    }
+    
+    .product-card:hover .product-image img {
+        transform: scale(1.05);
+    }
+    
+    .product-details {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    
+    .product-name {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        font-size: 1.25rem;
+        cursor: pointer;
+        color: #333;
+    }
+    
+    .product-name:hover {
+        color: #d4546a;
+    }
+    
+    .product-description {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        flex-grow: 1;
+    }
+    
+    .product-price-cart {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+    }
+    
+    .product-price {
+        font-weight: bold;
+        color: #d4546a;
+        font-size: 1.25rem;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public BakingSisters.Api.Models.Product Product { get; set; } = default!;
+    
+    private void NavigateToProduct()
+    {
+        NavigationManager.NavigateTo($"/product/{Product.Id}");
+    }
+} 

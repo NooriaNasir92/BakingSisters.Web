@@ -1,0 +1,61 @@
+@using BakingSisters.Web.Services
+@implements IDisposable
+@inject ICartService CartService
+@inject NavigationManager NavigationManager
+
+<li class="shop_cart" @onclick="NavigateToCart">
+    <a href="#" @onclick:preventDefault>
+        <i class="lnr lnr-cart"></i>
+        @if (TotalItems > 0)
+        {
+            <span class="cart-count">@TotalItems</span>
+        }
+    </a>
+</li>
+
+<style>
+    .shop_cart {
+        position: relative;
+        cursor: pointer;
+    }
+    
+    .cart-count {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background-color: #ff69b4;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+@code {
+    private int TotalItems { get; set; }
+    
+    protected override void OnInitialized()
+    {
+        CartService.OnChange += StateHasChanged;
+        UpdateCartCount();
+    }
+    
+    public void Dispose()
+    {
+        CartService.OnChange -= StateHasChanged;
+    }
+    
+    private void UpdateCartCount()
+    {
+        TotalItems = CartService.GetCart().TotalItems;
+    }
+    
+    private void NavigateToCart()
+    {
+        NavigationManager.NavigateTo("/cart");
+    }
+} 
