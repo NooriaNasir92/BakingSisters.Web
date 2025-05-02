@@ -39,7 +39,7 @@ public class AuthService(BakeryDbContext context, IConfiguration configuration) 
         if (await context.Users.AnyAsync(u => u.Email == user.Email))
             throw new InvalidOperationException("Email already exists");
 
-        user.PasswordHash = HashPassword(password);
+        user.PasswordHash = User.HashPassword(password);
         context.Users.Add(user);
         await context.SaveChangesAsync();
 
@@ -79,15 +79,8 @@ public class AuthService(BakeryDbContext context, IConfiguration configuration) 
         return Task.FromResult(tokenHandler.WriteToken(token));
     }
 
-    private static string HashPassword(string password)
-    {
-        using var sha256 = SHA256.Create();
-        var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-        return Convert.ToBase64String(hashedBytes);
-    }
-
     private static bool VerifyPassword(string password, string hash)
     {
-        return HashPassword(password) == hash;
+        return User.HashPassword(password) == hash;
     }
 } 

@@ -3,12 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace BakingSisters.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -102,10 +100,16 @@ namespace BakingSisters.Api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PasswordHash = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WhatsAppNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StreetAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserType = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
                     LastLoginDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -328,32 +332,6 @@ namespace BakingSisters.Api.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Description", "ImageUrl", "Name", "Type", "UpdateBy", "UpdatedAt" },
-                values: new object[,]
-                {
-                    { 1, new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1379), "admin", "Includes birthday cakes, wedding cakes, and custom cakes", "", "Cake", 0, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1868), "admin", "Includes Various types of cupcakes and muffins", "", "Cupcakes & Muffins", 0, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1871), "admin", "Includes birthday cookies, wedding cookies, and custom cookies", "", "Cookie", 0, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1873), "admin", "Includes Fruit pies, cream pies, and assorted tarts", "", "Pies & Tarts", 0, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 5, new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1876), "admin", "Includes birthday pastries, wedding pastries, and custom pastries", "", "Pastry", 0, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 6, new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1878), "admin", "Includes birthday pies, wedding pies, and custom pies", "", "Pie", 0, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 7, new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1881), "admin", "Includes birthday desserts, wedding desserts, and custom desserts", "", "Dessert", 0, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 8, new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1883), "admin", "Includes birthday beverages, wedding beverages, and custom beverages", "", "Beverage", 0, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 9, new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1885), "admin", "Includes birthday savory, wedding savory, and custom savory", "", "Savory", 0, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 10, new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1888), "admin", "Includes Different kinds of bread like sourdough, baguette, focaccia", "", "Bread", 0, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 11, new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1890), "admin", "Includes Glazed donuts, filled donuts, and mini donuts", "", "Donuts", 0, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 12, new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1893), "admin", "Includes Sweet and savory scones, buttermilk biscuits", "", "Scones & Biscuits", 0, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 13, new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1895), "admin", "Includes Gluten-free, keto, and vegan baked goods", "", "Gluten-Free & Special Diet", 0, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 14, new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1897), "admin", "Assorted gift boxes for cookies, pastries, and more", "", "Gift Boxes & Sets", 0, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Email", "FirstName", "IsActive", "LastLoginDate", "LastName", "PasswordHash", "UpdateBy", "UpdatedAt", "UserType" },
-                values: new object[] { 1, new DateTime(2025, 3, 2, 21, 42, 40, 378, DateTimeKind.Local).AddTicks(1004), "admin", "admin@bakingsisters.com", "Admin", true, new DateTime(2025, 3, 2, 16, 42, 40, 392, DateTimeKind.Utc).AddTicks(2049), "User", "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=", "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CustomizationGroupProduct_AvailableCustomizationsId",

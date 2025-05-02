@@ -27,7 +27,7 @@ public class LoginServiceTests : TestBase
             Email = "test@example.com",
             FirstName = "Test",
             LastName = "User",
-            UserType = UserType.Customer
+            UserType = BakingSisters.Api.Models.Enum.UserType.Customer
         };
         await _authService.RegisterAsync(user, "Password123!");
 
@@ -44,7 +44,7 @@ public class LoginServiceTests : TestBase
         Assert.Equal(user.Email, result.Email);
         Assert.Equal(user.FirstName, result.FirstName);
         Assert.Equal(user.LastName, result.LastName);
-        Assert.Equal(user.UserType, result.UserType);
+        Assert.Equal((int)user.UserType, result.UserType);
         Assert.NotEmpty(result.Token);
     }
 
@@ -72,7 +72,7 @@ public class LoginServiceTests : TestBase
             Email = "test@example.com",
             FirstName = "Test",
             LastName = "User",
-            UserType = UserType.Customer
+            UserType = BakingSisters.Api.Models.Enum.UserType.Customer
         };
         await _authService.RegisterAsync(user, "Password123!");
 
@@ -96,7 +96,7 @@ public class LoginServiceTests : TestBase
             Email = "admin@example.com",
             FirstName = "Admin",
             LastName = "User",
-            UserType = UserType.Admin
+            UserType = BakingSisters.Api.Models.Enum.UserType.Admin
         };
         await _authService.RegisterAsync(adminUser, "AdminPass123!");
 
@@ -111,7 +111,7 @@ public class LoginServiceTests : TestBase
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(UserType.Admin, result.UserType);
+        Assert.Equal((int)BakingSisters.Api.Models.Enum.UserType.Admin, result.UserType);
         Assert.NotEmpty(result.Token);
     }
 
@@ -124,7 +124,7 @@ public class LoginServiceTests : TestBase
             Email = "guest@example.com",
             FirstName = "Guest",
             LastName = "User",
-            UserType = UserType.Guest
+            UserType = BakingSisters.Api.Models.Enum.UserType.Guest
         };
         await _authService.RegisterAsync(guestUser, "GuestPass123!");
 
@@ -139,7 +139,7 @@ public class LoginServiceTests : TestBase
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(UserType.Guest, result.UserType);
+        Assert.Equal((int)BakingSisters.Api.Models.Enum.UserType.Guest, result.UserType);
         Assert.NotEmpty(result.Token);
     }
 
@@ -172,7 +172,7 @@ public class LoginServiceTests : TestBase
             Email = "inactive@example.com",
             FirstName = "Inactive",
             LastName = "User",
-            UserType = UserType.Customer,
+            UserType = BakingSisters.Api.Models.Enum.UserType.Customer,
             IsActive = false
         };
         await _authService.RegisterAsync(inactiveUser, "Password123!");
@@ -202,7 +202,7 @@ public class LoginServiceTests : TestBase
             Email = "test@example.com",
             FirstName = "Test",
             LastName = "User",
-            UserType = UserType.Customer,
+            UserType = BakingSisters.Api.Models.Enum.UserType.Customer,
             LastLoginDate = DateTime.UtcNow.AddDays(-1)
         };
         await _authService.RegisterAsync(user, "Password123!");
@@ -231,7 +231,7 @@ public class LoginServiceTests : TestBase
             Email = "test@example.com",
             FirstName = "Test",
             LastName = "User",
-            UserType = UserType.Customer
+            UserType = BakingSisters.Api.Models.Enum.UserType.Customer
         };
         await _authService.RegisterAsync(user, "Password123!");
 

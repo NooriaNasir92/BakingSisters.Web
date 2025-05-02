@@ -1,11 +1,12 @@
 ﻿@page "/register"
 @using System.ComponentModel.DataAnnotations
-@using BakingSisters.Web.Models
-@using BakingSisters.Web.Models.Enums
+@using BakingSisters.Api.Models.Auth
+@using BakingSisters.Api.Models.Enum
 @using BakingSisters.Web.Services
 @inject NavigationManager NavigationManager
 @inject ILogger<Register> Logger
 @inject ILoginService LoginService
+@inject IToastService ToastService
 @rendermode InteractiveServer
 
 <style>
@@ -19,12 +20,13 @@
         background-position: center;
         padding: 20px;
     }
+
     .register-box {
         min-height: 100vh;
         display: flex;
         background-color: transparent;
         justify-content: stretch;
-        align-items:  center;
+        align-items: center;
         background-image: url('images/register-background.jpg');
         background-size: cover;
         background-position: center;
@@ -34,7 +36,7 @@
 <div class="register-container">
     <div>
         <h2 class="register-title">Create Your Sweet Account</h2>
-        <EditForm Model="@registerModel" OnValidSubmit="HandleValidSubmit">
+        <EditForm Model="@registerModel" OnValidSubmit="HandleValidSubmit" FormName="registerForm">
             <DataAnnotationsValidator />
 
             <div class="form-group">
@@ -57,7 +59,7 @@
 
             <div class="form-group">
                 <label for="password">Password*</label>
-                <InputText type="password" id="password" class="form-control" @bind-Value="registerModel.Password" />
+                <InputText type="password" id="password" class="form-control" @bind-Value="registerModel.Password" @oninput="PasswordChanged" />
                 <ValidationMessage For="@(() => registerModel.Password)" />
             </div>
 
@@ -93,7 +95,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group terms-checkbox">
                 <label>
                     <InputCheckbox @bind-Value="registerModel.AcceptTerms" />
                     I accept the terms and conditions
@@ -139,6 +141,7 @@
 
     .form-group {
         margin-bottom: 1.5rem;
+        position: relative;
     }
 
     .form-row {
@@ -154,6 +157,12 @@
         font-weight: 500;
     }
 
+    .terms-checkbox label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
     .form-control {
         width: 100%;
         padding: 0.75rem;
@@ -163,10 +172,10 @@
         transition: border-color 0.3s ease;
     }
 
-    .form-control:focus {
-        outline: none;
-        border-color: #d4546a;
-    }
+        .form-control:focus {
+            outline: none;
+            border-color: #d4546a;
+        }
 
     .button-group {
         display: flex;
@@ -189,29 +198,53 @@
         color: white;
     }
 
-    .btn-primary:hover {
-        background-color: #c4445a;
-    }
+        .btn-primary:hover {
+            background-color: #c4445a;
+        }
 
     .btn-secondary {
         background-color: white;
         color: #d4546a;
-        border-color: #c4445a;
+        border: 1px solid #d4546a;
     }
 
-    .btn-secondary:hover {
-        background-color:white;
-    }
+        .btn-secondary:hover {
+            background-color: #f8f9fa;
+        }
 
     ::deep .validation-message {
         color: #dc3545;
         font-size: 0.875rem;
         margin-top: 0.25rem;
     }
+
+    @@media (max-width: 576px) {
+        .form-row {
+            flex-direction: column;
+            gap: 0;
+        }
+    }
 </style>
 
 @code {
     private RegisterModel registerModel = new();
+    private EditContext? editContext;
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(registerModel);
+    }
+
+    private void PasswordChanged(ChangeEventArgs args)
+    {
+        // This ensures validation is triggered again when the password changes
+        registerModel.Password = args.Value?.ToString() ?? string.Empty;
+        if (editContext != null)
+        {
+            editContext.Validate();
+            StateHasChanged();
+        }
+    }
 
     private class RegisterModel
     {
@@ -256,18 +289,39 @@
 
     private async Task HandleValidSubmit()
     {
+
         try
         {
-
             Logger.LogInformation("Registration attempt for user: {Email}", registerModel.Email);
-            await LoginService.RegisterUserAsync(await FromRegisterToUser(registerModel));
-            // Navigate to login page upon successful registration
-            NavigationManager.NavigateTo("/login");
+            var user = await FromRegisterToUser(registerModel);
+            var result = await LoginService.RegisterUserAsync(user);
+
+            if (result != null && result.Id > 0)
+            {
+                ToastService.ShowSuccess("Successfully User Created", "Success");
+                // Navigate to dashboard upon successful registration
+                NavigationManager.NavigateTo("/dashboard");
+            }
+            else
+            {
+                ToastService.ShowError("Registration failed. Please try again.", "Error");
+            }
         }
         catch (Exception ex)
         {
             Logger.LogError(ex, "Registration failed for user: {Email}", registerModel.Email);
-            // Handle registration failure
+
+            string errorMessage = "Registration failed";
+            if (ex.InnerException != null)
+            {
+                errorMessage += ": " + ex.InnerException.Message;
+            }
+            else
+            {
+                errorMessage += ": " + ex.Message;
+            }
+
+            ToastService.ShowError(errorMessage, "Error");
         }
     }
 
@@ -276,20 +330,21 @@
         NavigationManager.NavigateTo("/login");
     }
 
-    private Task<User> FromRegisterToUser(RegisterModel register)
+    private Task<BakingSisters.Api.Models.Auth.User> FromRegisterToUser(RegisterModel register)
     {
-        var user = new User
-        {
-            FirstName = register.FirstName,
-            LastName = register.LastName,
-            Email = register.Email,
-            PhoneNumber = register.PhoneNumber,
-            WhatsAppNumber = register.WhatsAppNumber,
-            StreetAddress = register.StreetAddress,
-            City = register.City,
-            ZipCode = register.ZipCode,
-            UserType = UserType.Customer
-        };
+        var user = new BakingSisters.Api.Models.Auth.User
+            {
+                FirstName = register.FirstName,
+                LastName = register.LastName,
+                Email = register.Email,
+                Password = register.Password,
+                PhoneNumber = register.PhoneNumber,
+                WhatsAppNumber = register.WhatsAppNumber,
+                StreetAddress = register.StreetAddress,
+                City = register.City,
+                ZipCode = register.ZipCode,
+                UserType = BakingSisters.Api.Models.Enum.UserType.Customer
+            };
         return Task.FromResult(user);
     }
 }

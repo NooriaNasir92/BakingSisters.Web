@@ -1,4 +1,4 @@
-﻿using BakingSisters.Web.Models;
+﻿using BakingSisters.Api.Models.Auth;
 
 namespace BakingSisters.Web;
 

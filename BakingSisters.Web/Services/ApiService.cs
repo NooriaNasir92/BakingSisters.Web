@@ -71,7 +71,7 @@ public class ApiService : IApiService
         if (!response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();
-            throw new HttpRequestException($"API request failed: {response.StatusCode} - {content}");
+            throw new HttpRequestException($"API request failed: {response.StatusCode} - {content} - Request URL: {response.RequestMessage?.RequestUri}, Method: {response.RequestMessage?.Method}");
         }
     }
 } 

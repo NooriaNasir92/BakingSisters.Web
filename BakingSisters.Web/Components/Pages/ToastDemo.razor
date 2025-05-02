@@ -1,0 +1,56 @@
+@page "/toast-demo"
+@using BakingSisters.Web.Services
+@inject IToastService ToastService
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Toast Notifications Demo</h3>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Message</label>
+                        <input type="text" class="form-control" @bind="message" placeholder="Enter message">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Title (Optional)</label>
+                        <input type="text" class="form-control" @bind="title" placeholder="Enter title">
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-success" @onclick="ShowSuccessToast">Show Success Toast</button>
+                        <button class="btn btn-danger" @onclick="ShowErrorToast">Show Error Toast</button>
+                        <button class="btn btn-warning" @onclick="ShowWarningToast">Show Warning Toast</button>
+                        <button class="btn btn-info" @onclick="ShowInfoToast">Show Info Toast</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string message = "This is a test notification";
+    private string title = string.Empty;
+
+    private void ShowSuccessToast()
+    {
+        ToastService.ShowSuccess(message, title);
+    }
+
+    private void ShowErrorToast()
+    {
+        ToastService.ShowError(message, title);
+    }
+
+    private void ShowWarningToast()
+    {
+        ToastService.ShowWarning(message, title);
+    }
+
+    private void ShowInfoToast()
+    {
+        ToastService.ShowInfo(message, title);
+    }
+} 

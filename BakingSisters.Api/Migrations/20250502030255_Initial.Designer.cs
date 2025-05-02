@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BakingSisters.Api.Migrations
 {
     [DbContext(typeof(BakeryDbContext))]
-    [Migration("20250302164241_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20250502030255_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.2")
+                .HasAnnotation("ProductVersion", "9.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -32,6 +32,9 @@ namespace BakingSisters.Api.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -63,10 +66,19 @@ namespace BakingSisters.Api.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreetAddress")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdateBy")
                         .IsRequired()
@@ -78,29 +90,18 @@ namespace BakingSisters.Api.Migrations
                     b.Property<int>("UserType")
                         .HasColumnType("int");
 
+                    b.Property<string>("WhatsAppNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ZipCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
                         .IsUnique();
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2025, 3, 2, 21, 42, 40, 378, DateTimeKind.Local).AddTicks(1004),
-                            CreatedBy = "admin",
-                            Email = "admin@bakingsisters.com",
-                            FirstName = "Admin",
-                            IsActive = true,
-                            LastLoginDate = new DateTime(2025, 3, 2, 16, 42, 40, 392, DateTimeKind.Utc).AddTicks(2049),
-                            LastName = "User",
-                            PasswordHash = "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=",
-                            UpdateBy = "",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserType = 1
-                        });
                 });
 
             modelBuilder.Entity("BakingSisters.Api.Models.Category", b =>
@@ -146,176 +147,6 @@ namespace BakingSisters.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1379),
-                            CreatedBy = "admin",
-                            Description = "Includes birthday cakes, wedding cakes, and custom cakes",
-                            ImageUrl = "",
-                            Name = "Cake",
-                            Type = 0,
-                            UpdateBy = "",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1868),
-                            CreatedBy = "admin",
-                            Description = "Includes Various types of cupcakes and muffins",
-                            ImageUrl = "",
-                            Name = "Cupcakes & Muffins",
-                            Type = 0,
-                            UpdateBy = "",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreatedAt = new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1871),
-                            CreatedBy = "admin",
-                            Description = "Includes birthday cookies, wedding cookies, and custom cookies",
-                            ImageUrl = "",
-                            Name = "Cookie",
-                            Type = 0,
-                            UpdateBy = "",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CreatedAt = new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1873),
-                            CreatedBy = "admin",
-                            Description = "Includes Fruit pies, cream pies, and assorted tarts",
-                            ImageUrl = "",
-                            Name = "Pies & Tarts",
-                            Type = 0,
-                            UpdateBy = "",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CreatedAt = new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1876),
-                            CreatedBy = "admin",
-                            Description = "Includes birthday pastries, wedding pastries, and custom pastries",
-                            ImageUrl = "",
-                            Name = "Pastry",
-                            Type = 0,
-                            UpdateBy = "",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CreatedAt = new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1878),
-                            CreatedBy = "admin",
-                            Description = "Includes birthday pies, wedding pies, and custom pies",
-                            ImageUrl = "",
-                            Name = "Pie",
-                            Type = 0,
-                            UpdateBy = "",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 7,
-                            CreatedAt = new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1881),
-                            CreatedBy = "admin",
-                            Description = "Includes birthday desserts, wedding desserts, and custom desserts",
-                            ImageUrl = "",
-                            Name = "Dessert",
-                            Type = 0,
-                            UpdateBy = "",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 8,
-                            CreatedAt = new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1883),
-                            CreatedBy = "admin",
-                            Description = "Includes birthday beverages, wedding beverages, and custom beverages",
-                            ImageUrl = "",
-                            Name = "Beverage",
-                            Type = 0,
-                            UpdateBy = "",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 9,
-                            CreatedAt = new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1885),
-                            CreatedBy = "admin",
-                            Description = "Includes birthday savory, wedding savory, and custom savory",
-                            ImageUrl = "",
-                            Name = "Savory",
-                            Type = 0,
-                            UpdateBy = "",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 10,
-                            CreatedAt = new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1888),
-                            CreatedBy = "admin",
-                            Description = "Includes Different kinds of bread like sourdough, baguette, focaccia",
-                            ImageUrl = "",
-                            Name = "Bread",
-                            Type = 0,
-                            UpdateBy = "",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 11,
-                            CreatedAt = new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1890),
-                            CreatedBy = "admin",
-                            Description = "Includes Glazed donuts, filled donuts, and mini donuts",
-                            ImageUrl = "",
-                            Name = "Donuts",
-                            Type = 0,
-                            UpdateBy = "",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 12,
-                            CreatedAt = new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1893),
-                            CreatedBy = "admin",
-                            Description = "Includes Sweet and savory scones, buttermilk biscuits",
-                            ImageUrl = "",
-                            Name = "Scones & Biscuits",
-                            Type = 0,
-                            UpdateBy = "",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 13,
-                            CreatedAt = new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1895),
-                            CreatedBy = "admin",
-                            Description = "Includes Gluten-free, keto, and vegan baked goods",
-                            ImageUrl = "",
-                            Name = "Gluten-Free & Special Diet",
-                            Type = 0,
-                            UpdateBy = "",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 14,
-                            CreatedAt = new DateTime(2025, 3, 2, 16, 42, 40, 394, DateTimeKind.Utc).AddTicks(1897),
-                            CreatedBy = "admin",
-                            Description = "Assorted gift boxes for cookies, pastries, and more",
-                            ImageUrl = "",
-                            Name = "Gift Boxes & Sets",
-                            Type = 0,
-                            UpdateBy = "",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("BakingSisters.Api.Models.Customer", b =>

@@ -1,11 +1,13 @@
-using BakingSisters.Web.Data;
-using BakingSisters.Web.Models;
-using BakingSisters.Web.Models.Enums;
+using BakingSisters.Api.Data;
+using BakingSisters.Api.Models.Auth;
+using BakingSisters.Api.Models.Enum;
+using BakingSisters.Api.Services.Auth;
 using Microsoft.EntityFrameworkCore;
 
 namespace BakingSisters.Web.Services;
 
-public class LoginService(IApiService apiService, ILogger<LoginService> logger, ApplicationDbContext context) : ILoginService
+// Updated to use BakeryDbContext from API project
+public class LoginService(IApiService apiService, ILogger<LoginService> logger, BakeryDbContext context, IAuthService authService) : ILoginService
 {
     public async Task<User> LoginUserAsync(string email, string password)
     {
@@ -17,12 +19,14 @@ public class LoginService(IApiService apiService, ILogger<LoginService> logger, 
                 Password = password
             };
 
+            logger.LogInformation("Attempting to login user {Email}", email);
             var response = await apiService.PostAsync<LoginRequest, LoginResponse>("api/auth/login", request);
+            logger.LogInformation("Login successful for user {Email}", email);
             return MapToUser(response);
         }
         catch (HttpRequestException ex)
         {
-            logger.LogError(ex, "Failed to login user with email: {Email}", email);
+            logger.LogError(ex, "Failed to login user with email: {Email}. Error: {Message}", email, ex.Message);
             throw;
         }
     }
@@ -45,7 +49,8 @@ public class LoginService(IApiService apiService, ILogger<LoginService> logger, 
                 FirstName = "Guest",
                 LastName = "User",
                 UserType = UserType.Guest,
-                Token = ""
+                IsActive = true,
+                LastLoginDate = DateTime.UtcNow
             };
         }
     }
@@ -58,15 +63,51 @@ public class LoginService(IApiService apiService, ILogger<LoginService> logger, 
             FirstName = response.FirstName,
             LastName = response.LastName,
             UserType = (UserType)response.UserTypeValue,
+            LastLoginDate = DateTime.UtcNow,
             Token = response.Token
         };
     }
 
     public async Task<User> RegisterUserAsync(User user)
     {
-        context.Users.Add(user);
-        await context.SaveChangesAsync();
-        return await context.Users.FirstOrDefaultAsync(u => u.FirstName == user.FirstName && u.Email == user.Email) ?? new User();
+        try
+        {
+            // Ensure certain fields are set
+            user.PasswordHash = User.HashPassword(user.Password ?? "");
+            string originalPassword = user.Password ?? "";  // Store for token generation
+            user.Password = null; // Clear the plain text password
+            user.CreatedAt = DateTime.UtcNow;
+            user.LastLoginDate = DateTime.UtcNow;
+            user.IsActive = true;
+
+            // Add and save the user to the database
+            context.Users.Add(user);
+            await context.SaveChangesAsync();
+
+            // Get the newly created user from the database
+            var savedUser = await context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+            
+            if (savedUser != null)
+            {
+                // Generate a token for the user
+                string token = await authService.GenerateJwtTokenAsync(savedUser);
+                savedUser.Token = token;
+                
+                // Create login response for AppState
+                AppState.LoggedInUser = savedUser;
+            }
+
+            return savedUser ?? new User();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error registering user: {Error}", ex.Message);
+            if (ex.InnerException != null)
+            {
+                logger.LogError("Inner exception: {Error}", ex.InnerException.Message);
+            }
+            throw;
+        }
     }
 
     public async Task<IEnumerable<User>> GetAllUsersAsync()

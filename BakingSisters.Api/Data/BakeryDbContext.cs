@@ -5,13 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BakingSisters.Api.Data;
 
-public class BakeryDbContext : DbContext
+public class BakeryDbContext(DbContextOptions<BakeryDbContext> options) : DbContext(options)
 {
-    public BakeryDbContext(DbContextOptions<BakeryDbContext> options)
-        : base(options)
-    {
-    }
-
     public DbSet<User> Users { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Order> Orders { get; set; }
@@ -31,8 +26,7 @@ public class BakeryDbContext : DbContext
         // Apply entity configurations
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(BakeryDbContext).Assembly);
 
-        // Seed initial data
-        modelBuilder.SeedUsers();
-        modelBuilder.SeedCategories();
+        // Seed initial data - use async seeding methods in Program.cs instead
+        // modelBuilder.SeedCategories();
     }
 }

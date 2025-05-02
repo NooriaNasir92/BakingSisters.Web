@@ -96,6 +96,11 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
+app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -114,5 +119,24 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
+// Ensure database exists and seed initial data
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<BakeryDbContext>();
+        // Ensure the database is created
+        await context.Database.EnsureCreatedAsync();
+        // Seed the database with initial users
+        await BakingSisters.Api.Data.Seeds.UserSeed.SeedUsersAsync(context);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while initializing the database.");
+    }
+}
+
 // Remove the weather forecast endpoint as it's just a template
-app.Run();
+await app.RunAsync();

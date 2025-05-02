@@ -1,5 +1,3 @@
-using System.Security.Cryptography;
-using System.Text;
 using BakingSisters.Api.Models.Auth;
 using BakingSisters.Api.Models.Enum;
 using Microsoft.EntityFrameworkCore;
@@ -8,29 +6,40 @@ namespace BakingSisters.Api.Data.Seeds;
 
 public static class UserSeed
 {
-    // Using a static date for seeding
-    //private static readonly DateTime DefaultDate = new(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-    private static readonly DateTime DefaultDate = DateTime.UtcNow;
-
-    public static void SeedUsers(this ModelBuilder modelBuilder)
+    public static async Task SeedUsersAsync(BakeryDbContext context)
     {
-        modelBuilder.Entity<User>().HasData(new User
+        // Only seed if the database is empty
+        if (!await context.Users.AnyAsync())
         {
-            Id = 1,
-            Email = "admin@bakingsisters.com",
-            PasswordHash = HashPassword("admin"),
-            FirstName = "Admin",
-            LastName = "User",
-            UserType = UserType.Admin,
-            IsActive = true,
-            LastLoginDate = DefaultDate
-        });
-    }
+            var adminUser = new User
+            {
+                FirstName = "Admin",
+                LastName = "User",
+                Email = "admin@bakingsisters.com",
+                PasswordHash = User.HashPassword("Admin123!"),
+                Password = null, // Clear plain text password
+                PhoneNumber = "123-456-7890",
+                UserType = UserType.Admin,
+                CreatedAt = DateTime.UtcNow
+            };
 
-    private static string HashPassword(string password)
-    {
-        using var sha256 = SHA256.Create();
-        var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-        return Convert.ToBase64String(hashedBytes);
+            var customer = new User
+            {
+                FirstName = "Test",
+                LastName = "Customer",
+                Email = "customer@example.com",
+                PasswordHash = User.HashPassword("Customer123!"),
+                Password = null, // Clear plain text password
+                PhoneNumber = "987-654-3210",
+                StreetAddress = "123 Main St",
+                City = "Lahore",
+                ZipCode = "12345",
+                UserType = UserType.Customer,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            await context.Users.AddRangeAsync(adminUser, customer);
+            await context.SaveChangesAsync();
+        }
     }
 } 

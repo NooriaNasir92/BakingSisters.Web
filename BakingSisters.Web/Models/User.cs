@@ -21,31 +21,30 @@ public class User
     [MaxLength(100)]
     public string Email { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Password is required")]
     [MinLength(8, ErrorMessage = "Password must be at least 8 characters")]
     [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$",
         ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, and one number")]
-    public string Password { get; set; } = string.Empty;
+    public string? Password { get; set; }
 
-    [Required(ErrorMessage = "Phone number is required")]
     [Phone(ErrorMessage = "Invalid phone number format")]
-    public string PhoneNumber { get; set; } = string.Empty;
+    public string? PhoneNumber { get; set; }
 
     [Phone(ErrorMessage = "Invalid WhatsApp number format")]
-    public string WhatsAppNumber { get; set; } = string.Empty;
+    public string? WhatsAppNumber { get; set; }
 
-    [Required(ErrorMessage = "Street address is required")]
-    public string StreetAddress { get; set; } = string.Empty;
+    public string? StreetAddress { get; set; }
 
-    [Required(ErrorMessage = "City is required")]
-    public string City { get; set; } = string.Empty;
+    public string? City { get; set; }
 
-    [Required(ErrorMessage = "ZIP code is required")]
     [RegularExpression(@"^\d{5}(-\d{4})?$", ErrorMessage = "Invalid ZIP code format")]
-    public string ZipCode { get; set; } = string.Empty;
+    public string? ZipCode { get; set; }
 
     public UserType UserType { get; set; } = UserType.Customer;
 
+    [Required]
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    [NotMapped]
     public string Token { get; set; } = string.Empty;
 }
 
